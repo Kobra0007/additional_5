@@ -1,6 +1,7 @@
 module.exports = function check(str, bracketsConfig) {
 
     var objBrackets = [];
+    if(str.length % 2 == 1 ) return false;
     for (var i = 0; i < str.length; i++) {
 
         for (var j = 0; j < bracketsConfig.length; j++) {
@@ -21,6 +22,5 @@ module.exports = function check(str, bracketsConfig) {
     if (objBrackets.length) {
         return false;
     }
-    
     return true;
 }
