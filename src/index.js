@@ -1,26 +1,26 @@
 module.exports = function check(str, bracketsConfig) {
 
-    var objBrackets = [];
-    if(str.length % 2 == 1 ) return false;
+    var stack = [],
+        count = 0;
     for (var i = 0; i < str.length; i++) {
-
         for (var j = 0; j < bracketsConfig.length; j++) {
-            if (str[i] == bracketsConfig[j][0]) {
-                objBrackets.push(str[i]);
-                //str = str.replace(bracketsConfig[j][0],'-');
-
-            }
-            if (str[i] == bracketsConfig[j][1]) {
-                if (objBrackets[objBrackets.length - 1] == bracketsConfig[j][0]) {
-                    objBrackets.pop();
-                    //	str = str.replace(bracketsConfig[j][1],'+');
+            if (str[i] == bracketsConfig[j][0]&& str[i] == bracketsConfig[j][1]) {
+                if ((stack.length === 0) || (stack[stack.length - 1] !== bracketsConfig[j][0]))
+                    stack.push(str[i]);
+                else stack.pop();
+            } else {
+                if (str[i] == bracketsConfig[j][0]) {
+                    stack.push(str[i]);
+                } else
+                if (str[i] == bracketsConfig[j][1] && stack[stack.length - 1] == bracketsConfig[j][0]) {
+                    stack.pop();
+                } else
+                if (str[i] == bracketsConfig[j][1] && stack[stack.length - 1] !== bracketsConfig[j][0]) {
+                    stack.push(str[i]);
                 }
-
             }
         }
+
     }
-    if (objBrackets.length) {
-        return false;
-    }
-    return true;
+    return stack.length ? false : true;
 }
